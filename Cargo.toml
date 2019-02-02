@@ -3,5 +3,15 @@ name = "rust-bitbar"
 version = "0.1.0"
 authors = ["Benjamin Coenen <benjamin.coenen@corp.ovh.com>"]
 edition = "2018"
+description = "Rust crate to build BitBar plugins"
+repository = "https://github.com/bnjjj/rust-bitbar"
+readme = "README.md"
+keywords = ["bitbar", "bitbar-plugin", "osx", "plugin"]
+license = "MIT"
+license-file = "LICENSE"
+categories = ["os", "parsing"]
+
+[badges]
+travis-ci = { repository = "bnjjj/rust-bitbar", branch = "master" }
 
 [dependencies]
