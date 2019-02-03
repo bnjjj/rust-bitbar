@@ -5,15 +5,15 @@
 ///
 /// let mut pl = Plugin::new();
 /// let mut line = Line::new("first line".to_string());
-/// line.color("red".to_string())
-///     .href("http://google.com".to_string());
+/// line.set_color("red".to_string())
+///     .set_href("http://google.com".to_string());
 ///
 /// let mut sub_menu = SubMenu::new();
-/// sub_menu.line(line);
+/// sub_menu.add_line(line);
 ///
 /// let status_line = Line::new(String::from("🍺🍺🍺"));
-/// pl.status_line(status_line).sub_menu(sub_menu);
-
+/// pl.set_status_line(status_line).set_sub_menu(sub_menu);
+///
 /// pl.render();
 /// ```
 
@@ -96,12 +96,12 @@ impl Plugin {
         Plugin::default()
     }
 
-    pub fn status_line(&mut self, line: Line) -> &mut Self {
+    pub fn set_status_line(&mut self, line: Line) -> &mut Self {
         self.status_bar.lines.push(line);
         self
     }
 
-    pub fn sub_menu(&mut self, sub_menu: SubMenu) -> &mut Self {
+    pub fn set_sub_menu(&mut self, sub_menu: SubMenu) -> &mut Self {
         self.sub_menu = Some(sub_menu);
         self
     }
@@ -138,20 +138,20 @@ impl SubMenu {
     }
     /// Line creates a line adding text to the dropdown which will be added after
     /// the main dropdown delimiter (`---`).
-    pub fn line(&mut self, line: Line) -> &mut Self {
+    pub fn add_line(&mut self, line: Line) -> &mut Self {
         self.lines.push(SubMenuItem::Line(line));
         self
     }
 
     /// NewSubMenu creates a nested submenu off a submenu.
-    pub fn sub_menu(&mut self, sub_menu: SubMenu) -> &mut Self {
+    pub fn add_sub_menu(&mut self, sub_menu: SubMenu) -> &mut Self {
         self.lines.push(SubMenuItem::SubMenu(Box::new(sub_menu)));
         self
     }
 
     /// HR turns a line into a horizontal delimiter, useful for breaking menu items
     /// into logical groups.
-    pub fn hr(&mut self) -> &mut Self {
+    pub fn add_hr(&mut self) -> &mut Self {
         let line = Line {
             text: "---".to_string(),
             hr: true,
@@ -172,13 +172,13 @@ impl Line {
         }
     }
     /// Change text of the line
-    pub fn text(&mut self, text: String) -> &mut Self {
+    pub fn set_text(&mut self, text: String) -> &mut Self {
         self.text = text;
         self
     }
 
     /// Style provides a alternate method for setting the text style related options.
-    pub fn style(&mut self, style: Style) -> &mut Self {
+    pub fn set_style(&mut self, style: Style) -> &mut Self {
         self.color = style.color;
         self.font = style.font;
         self.size = style.size;
@@ -191,7 +191,7 @@ impl Line {
 
     /// command provides a alternate method for setting the bash script and
     /// params along with some related flags via a Cmd struct.
-    pub fn command(&mut self, cmd: Cmd) -> &mut Self {
+    pub fn set_command(&mut self, cmd: Cmd) -> &mut Self {
         self.bash = cmd.bash;
         self.params = cmd.params;
         self.terminal = cmd.terminal;
@@ -200,42 +200,42 @@ impl Line {
     }
 
     /// href adds a URL to the line and makes it clickable.
-    pub fn href(&mut self, href: String) -> &mut Self {
+    pub fn set_href(&mut self, href: String) -> &mut Self {
         self.href = href;
         self
     }
     /// Color sets the lines font color, can take a name or hex value.
-    pub fn color(&mut self, color: String) -> &mut Self {
+    pub fn set_color(&mut self, color: String) -> &mut Self {
         self.color = color;
         self
     }
 
     /// Font sets the lines font.
-    pub fn font(&mut self, font: String) -> &mut Self {
+    pub fn set_font(&mut self, font: String) -> &mut Self {
         self.font = font;
         self
     }
 
     /// Size sets the lines font size.
-    pub fn size(&mut self, size: i64) -> &mut Self {
+    pub fn set_size(&mut self, size: i64) -> &mut Self {
         self.size = size;
         self
     }
 
     /// Bash makes makes the line clickable and adds a script that will be run on click.
-    pub fn bash(&mut self, bash: String) -> &mut Self {
+    pub fn set_bash(&mut self, bash: String) -> &mut Self {
         self.bash = bash;
         self
     }
     /// Params adds arguments which are passed to the script specified by line.bash()
-    pub fn params(&mut self, params: Vec<String>) -> &mut Self {
+    pub fn set_params(&mut self, params: Vec<String>) -> &mut Self {
         self.params = params;
         self
     }
 
     /// Terminal sets a flag which controls whether a Terminal is opened when the bash
     /// script is run.
-    pub fn terminal(&mut self, terminal: bool) -> &mut Self {
+    pub fn set_terminal(&mut self, terminal: bool) -> &mut Self {
         self.terminal = terminal;
         self
     }
@@ -243,47 +243,47 @@ impl Line {
     /// Refresh controls whether clicking the line results in the plugin being refreshed.
     /// If the line has a bash script attached then the plugin is refreshed after the
     /// script finishes.
-    pub fn refresh(&mut self, refresh: bool) -> &mut Self {
+    pub fn set_refresh(&mut self, refresh: bool) -> &mut Self {
         self.refresh = refresh;
         self
     }
 
     /// DropDown sets a flag which controls whether the line only appears and cycles in the
     /// status bar but not in the dropdown.
-    pub fn drop_down(&mut self, drop_down: bool) -> &mut Self {
+    pub fn set_drop_down(&mut self, drop_down: bool) -> &mut Self {
         self.drop_down = drop_down;
         self
     }
 
     /// Length truncates the line after the specified number of characters. An elipsis will
     /// be added to any truncated strings, as well as a tooltip displaying the full string.
-    pub fn length(&mut self, length: i64) -> &mut Self {
+    pub fn set_length(&mut self, length: i64) -> &mut Self {
         self.length = length;
         self
     }
 
     /// Trim sets a flag to control whether leading/trailing whitespace is trimmed from the
     /// title. Defaults to `true`.
-    pub fn trim(&mut self, trim: bool) -> &mut Self {
+    pub fn set_trim(&mut self, trim: bool) -> &mut Self {
         self.trim = trim;
         self
     }
 
     /// Alternate sets a flag to mark a line as an alternate to the previous one for when the
     /// Option key is pressed in the dropdown.
-    pub fn alternate(&mut self, alternate: bool) -> &mut Self {
+    pub fn set_alternate(&mut self, alternate: bool) -> &mut Self {
         self.alternate = alternate;
         self
     }
 
     /// Emojize sets a flag to control parsing of github style :mushroom: into 🍄.
-    pub fn emojize(&mut self, emojize: bool) -> &mut Self {
+    pub fn set_emojize(&mut self, emojize: bool) -> &mut Self {
         self.emojize = emojize;
         self
     }
 
     /// Ansi sets a flag to control parsing of ANSI codes.
-    pub fn ansi(&mut self, ansi: bool) -> &mut Self {
+    pub fn set_ansi(&mut self, ansi: bool) -> &mut Self {
         self.ansi = ansi;
         self
     }
@@ -404,9 +404,9 @@ fn render_command_options(line: &Line) -> Vec<String> {
 #[test]
 fn test_render_command_options() {
     let mut line = Line::new("here is a test".to_string());
-    line.bash("echo test".to_string())
-        .params(vec!["params1".to_string(), "params2".to_string()])
-        .refresh(true);
+    line.set_bash("echo test".to_string())
+        .set_params(vec!["params1".to_string(), "params2".to_string()])
+        .set_refresh(true);
     let resp = render_command_options(&line);
 
     assert_eq!(resp[0], r#"bash="echo test""#.to_string());
@@ -418,10 +418,10 @@ fn test_render_command_options() {
 #[test]
 fn test_line_to_string() {
     let mut line = Line::new("here is a test".to_string());
-    line.bash("echo test".to_string())
-        .color("red".to_string())
-        .params(vec!["params1".to_string(), "params2".to_string()])
-        .refresh(true);
+    line.set_bash("echo test".to_string())
+        .set_color("red".to_string())
+        .set_params(vec!["params1".to_string(), "params2".to_string()])
+        .set_refresh(true);
     let resp = line.to_string();
 
     assert_eq!(resp, r#"here is a test | color="red" bash="echo test" param0=params1 param1=params2 refresh=true"#.to_string());
