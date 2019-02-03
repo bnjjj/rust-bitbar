@@ -1,6 +1,6 @@
 [package]
 name = "rust-bitbar"
-version = "0.3.0"
+version = "0.3.1"
 authors = ["Benjamin Coenen <benjamin.coenen@corp.ovh.com>"]
 edition = "2018"
 description = "Rust crate to build BitBar plugins"
