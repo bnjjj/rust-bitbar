@@ -1,22 +1,21 @@
 /// # Example
 ///
 /// ```
-/// use rust_bitbar::{new_line, new_plugin, new_sub_menu};
+/// use rust_bitbar::{Line, Plugin, SubMenu};
 ///
-/// let mut pl = new_plugin();
-/// let mut sub_menu = new_sub_menu();
-/// let mut line = new_line("first line".to_string());
+/// let mut pl = Plugin::new();
+/// let mut line = Line::new("first line".to_string());
 /// line.color("red".to_string())
 ///     .href("http://google.com".to_string());
 ///
+/// let mut sub_menu = SubMenu::new();
 /// sub_menu.line(line);
-/// 
-/// pl.status_line(String::from("🍺🍺🍺"))
-///     .sub_menu(sub_menu);
-/// 
+///
+/// let status_line = Line::new(String::from("🍺🍺🍺"));
+/// pl.status_line(status_line).sub_menu(sub_menu);
+
 /// pl.render();
 /// ```
-
 
 /// New returns an empty Bitbar menu without any context
 #[derive(Default)]
@@ -91,38 +90,13 @@ pub enum SubMenuItem {
     SubMenu(Box<SubMenu>),
 }
 
-/// Function to create empty plugin
-pub fn new_plugin() -> Plugin {
-    Plugin::default()
-}
-
-/// Function to create empty line
-pub fn new_line(text: String) -> Line {
-    Line {
-        text,
-        ..Default::default()
-    }
-}
-
-/// Function to create empty sub menu
-pub fn new_sub_menu() -> SubMenu {
-    SubMenu {
-        level: 0,
-        lines: vec![],
-    }
-}
-
-/// Function to create empty style
-pub fn new_style() -> Style {
-    Style::default()
-}
-
 impl Plugin {
-    pub fn status_line(&mut self, text: String) -> &mut Self {
-        let line = Line {
-            text,
-            ..Default::default()
-        };
+    /// Function to create empty plugin
+    pub fn new() -> Self {
+        Plugin::default()
+    }
+
+    pub fn status_line(&mut self, line: Line) -> &mut Self {
         self.status_bar.lines.push(line);
         self
     }
@@ -155,6 +129,13 @@ impl std::string::ToString for Plugin {
 }
 
 impl SubMenu {
+    /// Function to create empty sub menu
+    pub fn new() -> Self {
+        SubMenu {
+            level: 0,
+            lines: vec![],
+        }
+    }
     /// Line creates a line adding text to the dropdown which will be added after
     /// the main dropdown delimiter (`---`).
     pub fn line(&mut self, line: Line) -> &mut Self {
@@ -183,6 +164,19 @@ impl SubMenu {
 }
 
 impl Line {
+    /// Function to create empty line
+    pub fn new(text: String) -> Self {
+        Line {
+            text,
+            ..Default::default()
+        }
+    }
+    /// Change text of the line
+    pub fn text(&mut self, text: String) -> &mut Self {
+        self.text = text;
+        self
+    }
+
     /// Style provides a alternate method for setting the text style related options.
     pub fn style(&mut self, style: Style) -> &mut Self {
         self.color = style.color;
@@ -311,6 +305,13 @@ impl std::string::ToString for Line {
     }
 }
 
+impl Style {
+    /// Function to create empty style
+    pub fn new() -> Self {
+        Style::default()
+    }
+}
+
 fn render_sub_menu(sub_menu: &SubMenu) -> String {
     let mut output = String::new();
     let mut prefix = String::new();
@@ -402,9 +403,8 @@ fn render_command_options(line: &Line) -> Vec<String> {
 
 #[test]
 fn test_render_command_options() {
-    let mut line = new_line("here is a test".to_string());
-    line
-        .bash("echo test".to_string())
+    let mut line = Line::new("here is a test".to_string());
+    line.bash("echo test".to_string())
         .params(vec!["params1".to_string(), "params2".to_string()])
         .refresh(true);
     let resp = render_command_options(&line);
@@ -417,9 +417,8 @@ fn test_render_command_options() {
 
 #[test]
 fn test_line_to_string() {
-    let mut line = new_line("here is a test".to_string());
-    line
-        .bash("echo test".to_string())
+    let mut line = Line::new("here is a test".to_string());
+    line.bash("echo test".to_string())
         .color("red".to_string())
         .params(vec!["params1".to_string(), "params2".to_string()])
         .refresh(true);

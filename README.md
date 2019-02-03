@@ -8,20 +8,19 @@ This repo contains a crate for creating [BitBar](https://github.com/matryer/bitb
 Here is a simple example : 
 
 ```rust
-use rust_bitbar::{new_line, new_plugin, new_sub_menu};
+use rust_bitbar::{Line, Plugin, SubMenu};
 
 fn main() {
-    let mut pl = new_plugin();
-    let mut sub_menu = new_sub_menu();
-    let mut line = new_line("first line".to_string());
-
+    let mut pl = Plugin::new();
+    let mut line = Line::new("first line".to_string());
     line.color("red".to_string())
         .href("http://google.com".to_string());
 
+    let mut sub_menu = SubMenu::new();
     sub_menu.line(line);
 
-    pl.status_line(String::from("🍺🍺🍺"))
-        .sub_menu(sub_menu);
+    let status_line = Line::new(String::from("🍺🍺🍺"));
+    pl.status_line(status_line).sub_menu(sub_menu);
 
     pl.render();
 }
