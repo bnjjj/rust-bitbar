@@ -6,7 +6,7 @@ edition = "2018"
 description = "Rust crate to build BitBar plugins"
 repository = "https://github.com/bnjjj/rust-bitbar"
 readme = "README.md"
-keywords = ["bitbar", "bitbar-plugin", "osx", "plugin"]
+keywords = ["bitbar", "bitbar-plugin", "macos", "plugin"]
 license-file = "LICENSE"
 categories = ["os", "parsing"]
 
