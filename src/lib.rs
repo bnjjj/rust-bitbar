@@ -323,9 +323,9 @@ fn render_sub_menu(sub_menu: &SubMenu) -> String {
         match line {
             SubMenuItem::Line(current_line) => {
                 if current_line.hr {
-                    output = format!("{}{}\n", prefix.trim(), current_line.to_string());
+                    output = format!("{}{}{}\n", output, prefix.trim(), current_line.to_string());
                 } else {
-                    output = format!("{}{}\n", prefix, current_line.to_string());
+                    output = format!("{}{}{}\n", output, prefix, current_line.to_string());
                 }
             }
             SubMenuItem::SubMenu(current_sub_m) => {
