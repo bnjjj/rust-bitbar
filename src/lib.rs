@@ -4,14 +4,14 @@
 /// use rust_bitbar::{Line, Plugin, SubMenu};
 ///
 /// let mut pl = Plugin::new();
-/// let mut line = Line::new("first line".to_string());
-/// line.set_color("red".to_string())
-///     .set_href("http://google.com".to_string());
+/// let mut line = Line::new("first line");
+/// line.set_color("red")
+///     .set_href("http://google.com");
 ///
 /// let mut sub_menu = SubMenu::new();
 /// sub_menu.add_line(line);
 ///
-/// let status_line = Line::new(String::from("🍺🍺🍺"));
+/// let status_line = Line::new("🍺🍺🍺");
 /// pl.set_status_line(status_line).set_sub_menu(sub_menu);
 ///
 /// pl.render();
@@ -165,15 +165,15 @@ impl SubMenu {
 
 impl Line {
     /// Function to create empty line
-    pub fn new(text: String) -> Self {
+    pub fn new<T: Into<String>>(text: T) -> Self {
         Line {
-            text,
+            text: text.into(),
             ..Default::default()
         }
     }
     /// Change text of the line
-    pub fn set_text(&mut self, text: String) -> &mut Self {
-        self.text = text;
+    pub fn set_text<T: Into<String>>(&mut self, text: T) -> &mut Self {
+        self.text = text.into();
         self
     }
 
@@ -200,19 +200,19 @@ impl Line {
     }
 
     /// href adds a URL to the line and makes it clickable.
-    pub fn set_href(&mut self, href: String) -> &mut Self {
-        self.href = href;
+    pub fn set_href<T: Into<String>>(&mut self, href: T) -> &mut Self {
+        self.href = href.into();
         self
     }
     /// Color sets the lines font color, can take a name or hex value.
-    pub fn set_color(&mut self, color: String) -> &mut Self {
-        self.color = color;
+    pub fn set_color<T: Into<String>>(&mut self, color: T) -> &mut Self {
+        self.color = color.into();
         self
     }
 
     /// Font sets the lines font.
-    pub fn set_font(&mut self, font: String) -> &mut Self {
-        self.font = font;
+    pub fn set_font<T: Into<String>>(&mut self, font: T) -> &mut Self {
+        self.font = font.into();
         self
     }
 
@@ -223,8 +223,8 @@ impl Line {
     }
 
     /// Bash makes makes the line clickable and adds a script that will be run on click.
-    pub fn set_bash(&mut self, bash: String) -> &mut Self {
-        self.bash = bash;
+    pub fn set_bash<T: Into<String>>(&mut self, bash: T) -> &mut Self {
+        self.bash = bash.into();
         self
     }
     /// Params adds arguments which are passed to the script specified by line.bash()
