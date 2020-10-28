@@ -164,20 +164,20 @@ impl SubMenu {
 }
 
 impl Line {
-    /// Function to create empty line
+    /// Function to create an empty line
     pub fn new<T: Into<String>>(text: T) -> Self {
         Line {
             text: text.into(),
             ..Default::default()
         }
     }
-    /// Change text of the line
+    /// Change the text of the line
     pub fn set_text<T: Into<String>>(&mut self, text: T) -> &mut Self {
         self.text = text.into();
         self
     }
 
-    /// Style provides a alternate method for setting the text style related options.
+    /// Style provides another method for setting the text style related options.
     pub fn set_style(&mut self, style: Style) -> &mut Self {
         self.color = style.color;
         self.font = style.font;
@@ -189,7 +189,7 @@ impl Line {
         self
     }
 
-    /// command provides a alternate method for setting the bash script and
+    /// command provides another method for setting the bash script and
     /// params along with some related flags via a Cmd struct.
     pub fn set_command(&mut self, cmd: Cmd) -> &mut Self {
         self.bash = cmd.bash;
@@ -204,7 +204,7 @@ impl Line {
         self.href = href.into();
         self
     }
-    /// Color sets the lines font color, can take a name or hex value.
+    /// Color sets the lines font color, accepts a color name or hex value.
     pub fn set_color<T: Into<String>>(&mut self, color: T) -> &mut Self {
         self.color = color.into();
         self
@@ -222,7 +222,7 @@ impl Line {
         self
     }
 
-    /// Bash makes makes the line clickable and adds a script that will be run on click.
+    /// Bash makes the line clickable and adds a script that will be run on click.
     pub fn set_bash<T: Into<String>>(&mut self, bash: T) -> &mut Self {
         self.bash = bash.into();
         self
@@ -240,9 +240,9 @@ impl Line {
         self
     }
 
-    /// Refresh controls whether clicking the line results in the plugin being refreshed.
+    /// Refresh controls whether clicking the line refresh the plugin.
     /// If the line has a bash script attached then the plugin is refreshed after the
-    /// script finishes.
+    /// script finishes its execution.
     pub fn set_refresh(&mut self, refresh: bool) -> &mut Self {
         self.refresh = refresh;
         self
